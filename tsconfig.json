@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "outDir": "dist",
+    "lib": [
+      "es6",
+      "es2016.array.include",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "rootDir": "src"
+  },
+  "exclude": [
+    "node_modules",
+    ".vscode-test"
+  ]
+}
