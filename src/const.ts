@@ -1,0 +1,3 @@
+export const BATTERY_KEY = 'TRACKER/BATTERY'
+export const LOCATION_KEY = 'TRACKER/LOCATION'
+export const DATA_KEY = 'TRACKER/DATA'

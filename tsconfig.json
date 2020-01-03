@@ -9,7 +9,7 @@
       "dom"
     ],
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "rootDir": "src"
   },
   "exclude": [
