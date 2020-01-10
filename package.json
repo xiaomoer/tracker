@@ -2,5 +2,18 @@
   "name": "tracker",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c",
+    "serve": "node ./server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^2.1.0",
+    "rollup": "^1.29.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "typescript": "^3.7.4"
+  }
 }

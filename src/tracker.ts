@@ -14,13 +14,13 @@ class Tracker {
     for(let i = 0; i < events.length; i += 1) {
       const eventName = events[i]
       // 不考虑兼容性
-      document.body.addEventListener(`on${eventName}`, this._eventHandler)
+      document.body.addEventListener(eventName, this._eventHandler)
     }
-    if (uploadType !== 'unload') {
-      window.addEventListener('unload', () => {
-        this._uploadUnload()
-      })
-    }
+    // if (uploadType !== 'unload') {
+    //   window.addEventListener('beforeunload', () => {
+    //     this._uploadUnload()
+    //   })
+    // }
     return this
   }
   // 移除一个
@@ -57,9 +57,12 @@ class Tracker {
   _uploadUnload() {
     const { uploadUrl } = this._config
     const data = JSON.parse(localStorage.getItem(DATA_KEY))
+    localStorage.removeItem(DATA_KEY)
     if (!data) return
     navigator.sendBeacon(uploadUrl, data)
   }
 }
 
-export default new Tracker({ events: ['click'] })
+// export default new Tracker({ events: ['click'] })
+
+export default Tracker

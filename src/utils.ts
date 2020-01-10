@@ -53,10 +53,10 @@ export function getRelativePosition(e: Event) {
   const rootNode = document.documentElement //  根文档
   const scrollLeft = rootNode.scrollLeft
   const scrollTop = rootNode.scrollTop
-  return {
-    relativeX: (e as any).pageX - scrollLeft - left,
-    relativeY: (e as any).pageY - scrollTop - top
-  }
+  return [
+    (e as any).pageX - scrollLeft - left,
+    (e as any).pageY - scrollTop - top
+  ]
 }
 
 interface IBattery {
@@ -75,7 +75,6 @@ export function getBattery() {
     return
   }
   if (typeof nav.getBattery === 'function') {
-    // const { charging, chargingTime, dischargingTime, level} =  await nav.getBattery()
     nav.getBattery()
       .then(data => {
         const { charging, chargingTime, dischargingTime, level } = data
@@ -108,7 +107,6 @@ export function getLocation() {
     })
   }
 }
-
 
 function getStorageData(key: string) {
   return JSON.parse(localStorage.getItem(key))
