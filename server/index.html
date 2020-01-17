@@ -19,18 +19,24 @@
   </style>
 </head>
 <body>
+  <script>
+    var t;
+    window.onload = function() {
+      t = new Tracker({ uploadUrl: 'https://limoer.cc', events: ['click'], uploadType: 'unload' })
+        .regist()
+      
+    }
+    function handle(e) {
+      console.log('run this', t)
+      t._uploadUnload()
+    }
+  </script>
   <div id="container">
     <div class="inner-wrapper">
       <button>action button</button>
+      <button onclick="handle()">upload data</button>
     </div>
   </div>
   <script src="./tracker.min.js"></script>
-  <script>
-    window.onload = function() {
-      console.log('begin')
-      new Tracker({ uploadUrl: 'https://limoer.cc', events: ['click'], uploadType: 'unload' })
-        .regist()
-    }
-  </script>
 </body>
 </html>

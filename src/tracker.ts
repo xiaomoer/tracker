@@ -16,11 +16,11 @@ class Tracker {
       // 不考虑兼容性
       document.body.addEventListener(eventName, this._eventHandler)
     }
-    // if (uploadType !== 'unload') {
-    //   window.addEventListener('beforeunload', () => {
-    //     this._uploadUnload()
-    //   })
-    // }
+    if (uploadType !== 'unload') {
+      window.addEventListener('beforeunload', () => {
+        this._uploadUnload()
+      })
+    }
     return this
   }
   // 移除一个
@@ -55,14 +55,12 @@ class Tracker {
     }
   }
   _uploadUnload() {
-    const { uploadUrl } = this._config
-    const data = JSON.parse(localStorage.getItem(DATA_KEY))
+    // const { uploadUrl } = this._config
+    const data = localStorage.getItem(DATA_KEY)
     localStorage.removeItem(DATA_KEY)
     if (!data) return
-    navigator.sendBeacon(uploadUrl, data)
+    navigator.sendBeacon(`/upload`, data)
   }
 }
-
-// export default new Tracker({ events: ['click'] })
 
 export default Tracker
