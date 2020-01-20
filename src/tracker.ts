@@ -1,5 +1,5 @@
 import { IConfig, INIT_CONFIG } from './config'
-import { getElementPath, getRelativePosition, genQueryString } from './utils'
+import { getElementPath, getRelativePosition, genQueryString, getBattery, getLocation, getUserAgentInfo } from './utils'
 import { DATA_KEY } from './const'
 class Tracker {
   private _config: IConfig;
@@ -16,11 +16,16 @@ class Tracker {
       // 不考虑兼容性
       document.body.addEventListener(eventName, this._eventHandler)
     }
-    if (uploadType !== 'unload') {
-      window.addEventListener('beforeunload', () => {
+    window.addEventListener('beforeunload', () => {
+      // 上传基本信息
+      this._uploadBaseInfo()
+      // 长传行为信息
+      if (uploadType !== 'unload') {
         this._uploadUnload()
-      })
-    }
+      }
+    })
+    getBattery()
+    getLocation()
     return this
   }
   // 移除一个
@@ -55,11 +60,14 @@ class Tracker {
     }
   }
   _uploadUnload() {
-    // const { uploadUrl } = this._config
     const data = localStorage.getItem(DATA_KEY)
     localStorage.removeItem(DATA_KEY)
     if (!data) return
     navigator.sendBeacon(`/upload`, data)
+  }
+  _uploadBaseInfo() {
+    let result = getUserAgentInfo()
+    navigator.sendBeacon('/info', JSON.stringify(result))
   }
 }
 
