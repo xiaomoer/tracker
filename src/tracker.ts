@@ -70,14 +70,16 @@ class Tracker {
     }
   }
   _uploadUnload() {
+    const { uploadUrl } = this._config
     const data = localStorage.getItem(DATA_KEY)
     localStorage.removeItem(DATA_KEY)
     if (!data) return
-    navigator.sendBeacon(`/upload`, data)
+    navigator.sendBeacon(uploadUrl, data)
   }
   _uploadBaseInfo() {
+    const { uploadUrl } = this._config
     let result = getUserAgentInfo()
-    navigator.sendBeacon('/info', JSON.stringify(result))
+    navigator.sendBeacon(uploadUrl, JSON.stringify(result))
   }
 }
 

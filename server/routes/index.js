@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
 })
 
 router.all('/upload', (req, res) => {
-  console.log('bodyis', req.query, req.body)
   const data = JSON.parse(req.body)
   if (data && data.length > 0) {
     for (let item of data) {
