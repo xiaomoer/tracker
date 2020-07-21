@@ -1,9 +1,16 @@
 import { IConfig, INIT_CONFIG } from './config'
-import { getElementPath, getRelativePosition, genQueryString, getBattery, getLocation, getUserAgentInfo } from './utils'
+import {
+  getElementPath,
+  getRelativePosition,
+  genQueryString,
+  getBattery,
+  getLocation,
+  getUserAgentInfo,
+} from './utils'
 import { DATA_KEY } from './const'
 class Tracker {
-  private _config: IConfig;
-  constructor(config: IConfig) {  
+  private _config: IConfig
+  constructor(config: IConfig) {
     this._config = Object.assign({}, INIT_CONFIG, config)
   }
   _eventHandler = (e: Event) => {
@@ -11,7 +18,7 @@ class Tracker {
   }
   regist() {
     const { events, uploadType } = this._config
-    for(let i = 0; i < events.length; i += 1) {
+    for (let i = 0; i < events.length; i += 1) {
       const eventName = events[i]
       // 不考虑兼容性
       document.body.addEventListener(eventName, this._eventHandler)
@@ -20,9 +27,7 @@ class Tracker {
       // 上传基本信息
       this._uploadBaseInfo()
       // 长传行为信息
-      if (uploadType !== 'unload') {
-        this._uploadUnload()
-      }
+      this._uploadUnload()
     })
     getBattery()
     getLocation()
@@ -37,7 +42,12 @@ class Tracker {
     const element = <HTMLElement>e.target
     const path = getElementPath(element)
     const position = getRelativePosition(e)
-    const data = { nodeName: element.nodeName.toLowerCase(), type: e.type, path: encodeURIComponent(path), position }
+    const data = {
+      nodeName: element.nodeName.toLowerCase(),
+      type: e.type,
+      path: encodeURIComponent(path),
+      position,
+    }
     // 直接上传
     if (uploadType === 'immedite') {
       this._upload(data)

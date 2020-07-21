@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>测试无痕埋点</title>
-  <style>
-    #container {
-      height: 300px;
-      background-color: aquamarine;
-    }
-    .inner-wrapper {
-      height: 100px;
-      background-color: gray;
-      position: relative;
-      top: 100px;
-    }
-  </style>
-</head>
-<body>
-  <script>
-    var t;
-    window.onload = function() {
-      t = new Tracker({ uploadUrl: 'https://limoer.cc', events: ['click'], uploadType: 'unload' })
-        .regist()
-      
-    }
-    function handle(e) {
-      console.log('run this', t)
-      t._uploadUnload()
-    }
-  </script>
-  <div id="container">
-    <div class="inner-wrapper">
-      <button>action button</button>
-      <button onclick="handle()">upload data</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>测试无痕埋点</title>
+    <style>
+      #container {
+        height: 300px;
+        background-color: aquamarine;
+      }
+      .inner-wrapper {
+        height: 100px;
+        background-color: gray;
+        position: relative;
+        top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      window.onload = function () {
+        new Tracker({
+          uploadUrl: 'localhost:3001/upload',
+          events: ['click'],
+          uploadType: 'unload',
+        }).regist()
+      }
+    </script>
+    <div id="container">
+      <div class="inner-wrapper">
+        <button>action button</button>
+        <!-- <button onclick="handle()">upload data</button> -->
+        <!-- <button onclick="uploadBaseInfo()">上传基本信息</button> -->
+      </div>
     </div>
-  </div>
-  <script src="./tracker.min.js"></script>
-</body>
+    <script src="./tracker.min.js"></script>
+  </body>
 </html>
