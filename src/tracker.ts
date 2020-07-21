@@ -64,7 +64,7 @@ class Tracker {
   _upload(data) {
     const { uploadUrl } = this._config
     let img = new Image(0, 0)
-    img.src = `${uploadUrl}?${genQueryString(data)}`
+    img.src = `${uploadUrl}/upload?${genQueryString(data)}`
     img.onload = () => {
       img = null
     }
@@ -74,12 +74,12 @@ class Tracker {
     const data = localStorage.getItem(DATA_KEY)
     localStorage.removeItem(DATA_KEY)
     if (!data) return
-    navigator.sendBeacon(uploadUrl, data)
+    navigator.sendBeacon(`${uploadUrl}/upload`, data)
   }
   _uploadBaseInfo() {
     const { uploadUrl } = this._config
     let result = getUserAgentInfo()
-    navigator.sendBeacon(uploadUrl, JSON.stringify(result))
+    navigator.sendBeacon(`${uploadUrl}/info`, JSON.stringify(result))
   }
 }
 

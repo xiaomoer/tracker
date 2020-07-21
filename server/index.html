@@ -20,19 +20,27 @@
   </head>
   <body>
     <script>
+      var t
       window.onload = function () {
-        new Tracker({
-          uploadUrl: '212.64.77.74:3001/upload',
+        t = new Tracker({
+          uploadUrl: 'http://212.64.77.74:3001',
           events: ['click'],
           uploadType: 'unload',
         }).regist()
+      }
+      function handle(e) {
+        console.log('run this', t)
+        t._uploadUnload()
+      }
+      function uploadBaseInfo(e) {
+        t._uploadBaseInfo()
       }
     </script>
     <div id="container">
       <div class="inner-wrapper">
         <button>action button</button>
         <!-- <button onclick="handle()">upload data</button> -->
-        <!-- <button onclick="uploadBaseInfo()">上传基本信息</button> -->
+        <button onclick="uploadBaseInfo()">上传基本信息</button>
       </div>
     </div>
     <script src="./tracker.min.js"></script>

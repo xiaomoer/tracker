@@ -9,8 +9,12 @@ router.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'))
 })
 
+function isEmptyObject(obj) {
+  return !obj || Object.keys(obj) === 0
+}
+
 router.all('/upload', (req, res) => {
-  const data = JSON.parse(req.body)
+  const data = isEmptyObject(req.body) ? [req.query] : JSON.parse(req.body)
   if (data && data.length > 0) {
     for (let item of data) {
       let result = new Info({
