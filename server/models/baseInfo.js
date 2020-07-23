@@ -8,11 +8,12 @@ const BaseInfoSchema = mongoose.Schema({
     charging: Boolean,
     chargingTime: Number,
     dischargingTime: { type: Number, default: 0 },
-    level: Number
+    level: Number,
   },
-  connection: { effectiveType: String, rtt: Number, downlink:Number },
+  connection: { effectiveType: String, rtt: Number, downlink: Number },
   online: { type: Boolean, default: true },
-  position: { long: Number, lat: Number }
+  position: { long: Number, lat: Number },
+  date: { type: Date, default: Date.now },
 })
 
 module.exports = mongoose.model('BaseInfo', BaseInfoSchema)

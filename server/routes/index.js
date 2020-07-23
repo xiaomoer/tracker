@@ -1,17 +1,21 @@
 const express = require('express')
 const Info = require('../models/info')
 const BaseInfo = require('../models/baseInfo')
-const path = require('path')
 let router = express.Router()
 
 router.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'text/html')
-  res.sendFile(path.resolve(__dirname, '../index.html'))
+  const visitCount = BaseInfo.count()
+  const behaviorCount = Info.count()
+  Promise.all([visitCount, behaviorCount]).then((vc, bc) => {
+    res.render('index', { visitCount: vc, behaviorCount: bc })
+  })
 })
 
 function isEmptyObject(obj) {
   return !obj || Object.keys(obj) === 0
 }
+
+// 单条使用get/sendBeacon使用的是post的方式
 
 router.all('/upload', (req, res) => {
   const data = isEmptyObject(req.body) ? [req.query] : JSON.parse(req.body)
