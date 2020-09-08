@@ -1,6 +1,8 @@
 const express = require('express')
 const Info = require('../models/info')
 const BaseInfo = require('../models/baseInfo')
+const path = require('path')
+const fetch = require('node-fetch')
 let router = express.Router()
 
 router.get('/', (req, res) => {
@@ -9,6 +11,11 @@ router.get('/', (req, res) => {
   Promise.all([visitCount, behaviorCount]).then((vc, bc) => {
     res.render('index', { visitCount: vc, behaviorCount: bc })
   })
+})
+
+router.get('/demo', (req, res) => {
+  res.setHeader('Content-Type', 'text/html')
+  res.sendFile(path.resolve(__dirname, '../demo.html'))
 })
 
 function isEmptyObject(obj) {
@@ -37,11 +44,21 @@ router.all('/upload', (req, res) => {
   }
 })
 
-router.all('/info', (req, res) => {
+router.all('/info', async (req, res) => {
   const data = JSON.parse(req.body)
-  if (!data) res.status(400).json({ err: `错误的参数：${data}` })
+  if (!data) {
+    res.status(400).json({ err: `错误的参数：${data}` })
+    return
+  }
+  // 收集用户ip并通过ip定位获取位置信息
+  const ip = req.ip
+  const address = await fetch(
+    `https://restapi.amap.com/v3/ip?ip=${ip}&output=json&key=d638cc23ceab51dbcdb9e8b51323842f`
+  ).then((res) => res.json())
   new BaseInfo({
     ...data,
+    ip,
+    address,
   }).save((err) => {
     if (err) {
       res.json(500).json({ err: err.message })

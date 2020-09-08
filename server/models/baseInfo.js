@@ -4,6 +4,16 @@ const BaseInfoSchema = mongoose.Schema({
   version: String,
   platform: String,
   language: String,
+  ip: String,
+  address: {
+    status: String,
+    info: String,
+    infocode: String,
+    province: String,
+    city: String | Array,
+    adcode: String | Array,
+    rectangle: String | Array,
+  },
   battery: {
     charging: Boolean,
     chargingTime: Number,

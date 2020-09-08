@@ -30,4 +30,4 @@ app.use('/', index)
 app.use('/api/s', statistics)
 app.use('/api/b', Record)
 
-app.listen(3001, () => console.log('server at localhost:3001'))
+app.listen(3001, '0.0.0.0', () => console.log('server at localhost:3001'))
