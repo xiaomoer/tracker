@@ -4,7 +4,7 @@ function getElementIdentifier(elem: HTMLElement) {
   if (!elem) {
     return ''
   }
-  if(elem.id) {
+  if (elem.id) {
     return `#${elem.id}`
   }
   const tagName = elem.tagName.toLowerCase()
@@ -17,7 +17,7 @@ function getElementIdentifier(elem: HTMLElement) {
 
 export function getElementPath(elem: HTMLElement) {
   const paths: string[] = []
-  while(elem) {
+  while (elem) {
     // 当前元素
     let name = getElementIdentifier(elem)
     if (!name) {
@@ -36,7 +36,10 @@ export function getElementPath(elem: HTMLElement) {
     }
     paths.unshift(name)
     // 遍历到了顶层或者当前选择器能够找到本元素
-    if (name.includes('body') || document.querySelector(paths.join('>')) === elem) {
+    if (
+      name.includes('body') ||
+      document.querySelector(paths.join('>')) === elem
+    ) {
       break
     }
     elem = elem.parentElement
@@ -45,7 +48,7 @@ export function getElementPath(elem: HTMLElement) {
 }
 /**
  * 获取event发生位置相对当前元素的位置
- * @param e 
+ * @param e
  */
 export function getRelativePosition(e: Event) {
   const elem = e.target as HTMLElement
@@ -55,7 +58,7 @@ export function getRelativePosition(e: Event) {
   const scrollTop = rootNode.scrollTop
   return [
     (e as any).pageX - scrollLeft - left,
-    (e as any).pageY - scrollTop - top
+    (e as any).pageY - scrollTop - top,
   ]
 }
 
@@ -75,24 +78,23 @@ export function getBattery() {
     return
   }
   if (typeof nav.getBattery === 'function') {
-    nav.getBattery()
-      .then(data => {
-        const { charging, chargingTime, dischargingTime, level } = data
-        const result = { charging, chargingTime, dischargingTime, level }
-        localStorage.setItem(BATTERY_KEY, JSON.stringify(result))
-      })
+    nav.getBattery().then((data) => {
+      const { charging, chargingTime, dischargingTime, level } = data
+      const result = { charging, chargingTime, dischargingTime, level }
+      localStorage.setItem(BATTERY_KEY, JSON.stringify(result))
+    })
   }
 }
 // 获取连接数据
 export function getConnection() {
   const connection = (navigator as any).connection
-  if(connection) {
+  if (connection) {
     // 网络类型 预估往返时间，下行速度
     const { effectiveType, rtt, downlink } = connection
     return {
       effectiveType,
       rtt,
-      downlink
+      downlink,
     }
   }
   return ''
@@ -100,9 +102,12 @@ export function getConnection() {
 
 // 获取经纬度
 export function getLocation() {
-  if('geolocation' in navigator) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      let pos = { long: position.coords.longitude, lat: position.coords.latitude }
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let pos = {
+        long: position.coords.longitude,
+        lat: position.coords.latitude,
+      }
       localStorage.setItem(LOCATION_KEY, JSON.stringify(pos))
     })
   }
@@ -127,7 +132,7 @@ export function getUserAgentInfo() {
     battery,
     connection,
     online,
-    position
+    position,
   }
 }
 

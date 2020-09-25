@@ -42,11 +42,13 @@ class Tracker {
     const element = <HTMLElement>e.target
     const path = getElementPath(element)
     const position = getRelativePosition(e)
+    const url = location.href
     const data = {
-      nodeName: element.nodeName.toLowerCase(),
-      type: e.type,
-      path: encodeURIComponent(path),
-      position,
+      nodeName: element.nodeName.toLowerCase(), // 节点
+      type: e.type, // 事件类型
+      path: encodeURIComponent(path), // css selector
+      position, // 相对位置
+      url,
     }
     // 直接上传
     if (uploadType === 'immedite') {
