@@ -1,9 +1,19 @@
-html
-head
-  title 数据统计
-body
-  h1 访问次数
-  p #{visitCount[0]}
+extends layout
 
-  h1 点击次数
-  div #{visitCount[1]}
+block content
+  .container-fluid.content
+    .row.with-no-margin
+      .col-auto
+        .card
+          .card-body
+            h3 访问次数
+            p
+              mark #{visitCount[0]}
+              span 次
+      .col-auto
+        .card
+          .card-body
+            h3 点击次数
+            p
+              mark #{visitCount[1]}
+              span 次

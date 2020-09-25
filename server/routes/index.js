@@ -8,8 +8,13 @@ let router = express.Router()
 router.get('/', (req, res) => {
   const visitCount = BaseInfo.count()
   const behaviorCount = Info.count()
+  // 当日新增
   Promise.all([visitCount, behaviorCount]).then((vc, bc) => {
-    res.render('index', { visitCount: vc, behaviorCount: bc })
+    res.render('index', {
+      visitCount: vc,
+      behaviorCount: bc,
+      title: '数据统计',
+    })
   })
 })
 
@@ -33,6 +38,7 @@ router.all('/upload', (req, res) => {
         type: item.type,
         nodeName: item.nodeName,
         position: item.position,
+        url: item.url,
       })
       result.save(function (err) {
         if (err) {
@@ -62,6 +68,7 @@ router.all('/info', async (req, res) => {
   }).save((err) => {
     if (err) {
       res.json(500).json({ err: err.message })
+      return
     }
     res.status(200).json({ status: 'ok' })
   })

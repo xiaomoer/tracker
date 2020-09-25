@@ -1,0 +1,31 @@
+.content {
+  box-sizing: border-box;
+  padding: 40px 14px;
+  min-height: 100vh;
+  background-color: rgb(240, 242, 245);
+}
+
+.card {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: 'tnum', 'tnum';
+  position: relative;
+  background: #fff;
+  border-radius: 2px;
+}
+.card:hover {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+.card-body {
+  padding: 20px 24px 8px;
+}
+
+.with-no-margin {
+  margin: 0;
+}

@@ -2,10 +2,15 @@ const mongoose = require('mongoose')
 
 const InfoSchema = mongoose.Schema({
   path: { type: String, isRequired: true },
-  type: { type: String, isRequired: true, enum: ['click', 'dbclick', 'keydown'] },
+  type: {
+    type: String,
+    isRequired: true,
+    enum: ['click', 'dbclick', 'keydown'],
+  },
   nodeName: { type: String, isRequired: false },
   position: { type: [Number] },
-  time: { type: Date, default: Date.now }
+  time: { type: Date, default: Date.now },
+  url: { type: String, require: true },
 })
 
 module.exports = mongoose.model('Info', InfoSchema)
