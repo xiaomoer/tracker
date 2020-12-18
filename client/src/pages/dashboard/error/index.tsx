@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import React from 'react'
 interface IProps {}
-const List: React.FC<IProps> = () => {
-  return <div>List</div>
+const Error: React.FC<IProps> = () => {
+  return <div>Error</div>
 }
-export default List
+export default Error

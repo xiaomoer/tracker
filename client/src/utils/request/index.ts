@@ -44,6 +44,7 @@ axios.interceptors.response.use(
     return Promise.reject(networkErrorMsg)
   },
 )
+
 export default async function request(options: requestOptions) {
   const { url } = options
   delete options.url
@@ -69,6 +70,7 @@ export default async function request(options: requestOptions) {
     delete options.headers
   }
   const newOptions: requestOptions = { ...defaultOptions, ...options }
+  newOptions.withCredentials = false // 解决跨域报错的问题
   newOptions.data = newOptions.body
   delete newOptions.body
   const newUrl = hasApi ? baseUrl + url : url

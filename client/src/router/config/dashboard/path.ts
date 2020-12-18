@@ -1,0 +1,5 @@
+export const MODULE_INDEX = '/dashboard'
+export const VISITED = '/dashboard/visited'
+export const BEHAVIOR = '/dashboard/behavior'
+export const ERROR = '/dashboard/error'
+export const TOTAL = '/dashboard/total'

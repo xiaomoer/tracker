@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout, Spin, Menu } from 'antd'
-import { UserOutlined, VideoCameraOutlined, UploadOutlined } from '@ant-design/icons'
 import { IRouteConfig } from '../../router/typing'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import styles from './style.module.scss'
-import Images from '@/assets/images'
+// import Images from '@/assets/images'
 import RouteWithSubRoutes from '@/router/routeWithSubRoute'
 import NoDataPage from '@/pages/404'
 import { IDispatch, IDvaLoading } from '@/typings/model'
 import { connect } from 'react-redux'
+import { BEHAVIOR, ERROR, VISITED, TOTAL } from '@/router/config/dashboard/path'
 const { Header, Sider, Content } = Layout
 interface IProps extends IDispatch, IDvaLoading {
   routes: IRouteConfig[]
@@ -16,21 +16,50 @@ interface IProps extends IDispatch, IDvaLoading {
   userAccount?: string
 }
 
+interface IMenu {
+  label: string
+  icon?: any
+  redirect: string
+}
+
+const menus: IMenu[] = [
+  {
+    label: '总览',
+    redirect: TOTAL,
+  },
+  {
+    label: 'PV/UV统计',
+    redirect: VISITED,
+  },
+  {
+    label: '行为',
+    redirect: BEHAVIOR,
+  },
+  {
+    label: '错误',
+    redirect: ERROR,
+  },
+]
+
 const BasicLayout: React.FC<IProps> = ({ loading, routes }) => {
+  const history = useHistory()
+  const location = useLocation()
+  function handleRedirect(redirect: string) {
+    if (!redirect) {
+      return
+    }
+    history.push(redirect)
+  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={false}>
-        <img src={Images.Avatar} alt="" style={{ height: '100px' }} />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
-          </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
-          </Menu.Item>
+        <p className={styles.title}>Data Monitoring</p>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
+          {menus.map(menu => (
+            <Menu.Item key={menu.redirect} onClick={() => handleRedirect(menu.redirect)}>
+              {menu.label}
+            </Menu.Item>
+          ))}
         </Menu>
       </Sider>
       <Layout className="site-layout">

@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Model } from 'wbd-frontend-kit'
-export const namespace = 'list'
+export const namespace = 'dashboard-behavior'
 
-export interface IState {
-  message: string
-}
+export interface IState {}
 
-const initState: IState = {
-  message: 'hello, this is from redux and page constractor',
-}
+const initState: IState = {}
 
 export default {
   namespace,
