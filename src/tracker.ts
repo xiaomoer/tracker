@@ -28,7 +28,7 @@ class Tracker {
       document.body.addEventListener(events[i], this._eventHandler)
     }
     // 数据上报
-    document.addEventListener('beforeunload', () => {
+    window.addEventListener('beforeunload', () => {
       // 上传基本信息
       this._uploadBaseInfo()
       // 长传行为信息
