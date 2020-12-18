@@ -24,6 +24,17 @@ const BaseInfoSchema = mongoose.Schema({
   online: { type: Boolean, default: true }, // 是否在线
   position: { long: Number, lat: Number }, // 经纬度
   date: { type: Date, default: Date.now }, // 记录日期
+  timing: {
+    redirect: Number,
+    appCache: Number,
+    dns: Number,
+    tcp: Number,
+    ttfb: Number,
+    downloaded: Number,
+    http: Number,
+    domloaded: Number,
+    loaded: Number,
+  }, // 基准性能相关
 })
 
 module.exports = mongoose.model('BaseInfo', BaseInfoSchema)

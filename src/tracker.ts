@@ -6,31 +6,34 @@ import {
   getBattery,
   getLocation,
   getUserAgentInfo,
+  catchErrorAndUpload,
 } from './utils'
 import { DATA_KEY } from './const'
 class Tracker {
   private _config: IConfig
   constructor(config: IConfig) {
     this._config = Object.assign({}, INIT_CONFIG, config)
+    // 获取异步数据
+    getBattery()
+    getLocation()
   }
-  _eventHandler = (e: Event) => {
+  _eventHandler = (e?: Event) => {
+    // 做多event适配层
     this._handleEvent(e)
   }
   regist() {
-    const { events, uploadType } = this._config
+    const { events } = this._config
     for (let i = 0; i < events.length; i += 1) {
-      const eventName = events[i]
-      // 不考虑兼容性
-      document.body.addEventListener(eventName, this._eventHandler)
+      // 不考ie兼容
+      document.body.addEventListener(events[i], this._eventHandler)
     }
-    window.addEventListener('beforeunload', () => {
+    // 数据上报
+    document.addEventListener('beforeunload', () => {
       // 上传基本信息
       this._uploadBaseInfo()
       // 长传行为信息
       this._uploadUnload()
     })
-    getBattery()
-    getLocation()
     return this
   }
   // 移除一个
@@ -65,7 +68,7 @@ class Tracker {
   }
   _upload(data) {
     const { uploadUrl } = this._config
-    let img = new Image(0, 0)
+    let img = new Image(1, 1)
     img.src = `${uploadUrl}/upload?${genQueryString(data)}`
     img.onload = () => {
       img = null
@@ -81,8 +84,11 @@ class Tracker {
   _uploadBaseInfo() {
     const { uploadUrl } = this._config
     let result = getUserAgentInfo()
+    console.log('result', result)
     navigator.sendBeacon(`${uploadUrl}/info`, JSON.stringify(result))
   }
 }
+
+catchErrorAndUpload('http://localhost:3001/error')
 
 export default Tracker

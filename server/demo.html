@@ -35,12 +35,16 @@
       function uploadBaseInfo(e) {
         t._uploadBaseInfo()
       }
+      function handleThrowError() {
+        console.log(haha.a)
+      }
     </script>
     <div id="container">
       <div class="inner-wrapper">
         <button>action button</button>
         <!-- <button onclick="handle()">upload data</button> -->
         <button onclick="uploadBaseInfo()">上传基本信息</button>
+        <button onclick="handleThrowError()">产生一个错误</button>
       </div>
     </div>
     <script src="./tracker.min.js"></script>

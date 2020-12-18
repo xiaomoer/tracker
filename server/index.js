@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const index = require('./routes/index')
 const statistics = require('./routes/api/statistics')
 const Record = require('./routes/api/record')
+const ErrorRecord = require('./routes/api/error')
 
 mongoose.connect('mongodb://localhost/mongodata', { useNewUrlParser: true })
 
@@ -28,6 +29,7 @@ app.use(express.static(path.resolve(__dirname, 'public')))
 
 app.use('/', index)
 app.use('/api/s', statistics)
-app.use('/api/b', Record)
+app.use('/api/r', Record)
+app.use('/api/e', ErrorRecord)
 
 app.listen(3001, '0.0.0.0', () => console.log('server at localhost:3001'))

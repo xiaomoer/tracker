@@ -1,6 +1,7 @@
 const express = require('express')
 const Info = require('../models/info')
 const BaseInfo = require('../models/baseInfo')
+const ErrorInfo = require('../models/error')
 const path = require('path')
 const fetch = require('node-fetch')
 let router = express.Router()
@@ -51,11 +52,11 @@ router.all('/upload', (req, res) => {
 })
 
 router.all('/info', async (req, res) => {
-  const data = JSON.parse(req.body)
-  if (!data) {
-    res.status(400).json({ err: `错误的参数：${data}` })
+  if (!req.body) {
+    res.status(400).json({ err: `错误的参数：${req.body}` })
     return
   }
+  const data = JSON.parse(req.body)
   // 收集用户ip并通过ip定位获取位置信息
   const ip = req.ip
   const address = await fetch(
@@ -67,11 +68,28 @@ router.all('/info', async (req, res) => {
     address,
   }).save((err) => {
     if (err) {
-      res.json(500).json({ err: err.message })
+      res.status(500).json({ err: err.message })
       return
     }
     res.status(200).json({ status: 'ok' })
   })
+})
+
+router.all('/error', async (req, res) => {
+  console.log('错误信息！')
+  const data = JSON.parse(req.body)
+  if (!data) {
+    res.status(400).json({ err: `错误的参数：${data}` })
+    return
+  }
+  try {
+    for (const record of data) {
+      await new ErrorInfo({ ...record }).save()
+    }
+  } catch (error) {
+    res.status(500).json({ err: err.message })
+  }
+  res.json({ status: 'ok' })
 })
 
 module.exports = router

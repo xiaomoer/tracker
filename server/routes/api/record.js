@@ -17,7 +17,7 @@ router.get('/page', (req, res) => {
     .sort({ time: -1 })
     .skip((Number(page) - 1) * Number(size))
     .limit(Number(size))
-  Promise.all([queryCount, queryData]).then((totalCount, data) => {
+  Promise.all([queryCount, queryData]).then(([totalCount, data]) => {
     res.json({
       result: data,
       totalCount,
