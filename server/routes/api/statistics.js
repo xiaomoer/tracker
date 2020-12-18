@@ -25,6 +25,9 @@ router.get('/page', (req, res) => {
   })
 })
 
+// pv:访问次数
+// uv:每天同一个用户被算作一次访问，这里基于ip的uv，不是很严格
+
 router.get('/count', (req, res) => {
   BaseInfo.count((err, count) => {
     if (err) {
@@ -34,6 +37,18 @@ router.get('/count', (req, res) => {
       result: count,
     })
   })
+})
+
+router.get('/pv', (_, res) => {
+  BaseInfo.aggregate()
+    .group({ _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } }, count: { $sum: 1 }, ips: { $push: '$ip' } })
+    .exec((err, result) => {
+      if (err) {
+        res.status(500).json({ err: err.message })
+      } else {
+        res.json(result)
+      }
+    })
 })
 
 module.exports = router

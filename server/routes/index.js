@@ -76,7 +76,10 @@ router.all('/info', async (req, res) => {
 })
 
 router.all('/error', async (req, res) => {
-  console.log('错误信息！')
+  if (!req.body) {
+    res.json({ status: 'ok' })
+    return
+  }
   const data = JSON.parse(req.body)
   if (!data) {
     res.status(400).json({ err: `错误的参数：${data}` })

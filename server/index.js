@@ -16,7 +16,7 @@ app.set('view engine', 'pug')
 const allowCrossDomain = function (req, res, next) {
   res.set('Access-Control-Allow-Origin', '*')
   res.set('Access-Control-Allow-Methods', 'POST,GET')
-  res.set('Access-Control-Headers', 'Content-Type, authorization')
+  res.set('Access-Control-Allow-Headers', 'Content-Type,authorization')
   res.set('Access-Control-Allow-Credentials', 'true')
   next()
 }

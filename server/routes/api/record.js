@@ -36,4 +36,28 @@ router.get('/count', (req, res) => {
   })
 })
 
+/**
+ * 总行为条数
+ * 今日新增条数
+ * 较昨日变化%
+ * 行为类型数
+ */
+
+router.get('/statistics', (_, res) => {
+  Info.aggregate()
+    .sort({ time: -1 })
+    .group({
+      _id: { $dateToString: { format: '%Y-%m-%d', date: '$time' } },
+      count: { $sum: 1 },
+      urls: { $push: '$url' },
+    })
+    .exec((err, result) => {
+      if (err) {
+        res.status(500).json({ err: err.message })
+      } else {
+        res.json(result)
+      }
+    })
+})
+
 module.exports = router
